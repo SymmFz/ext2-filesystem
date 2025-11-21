@@ -1,3 +1,0 @@
-/home/students/2023311930/user-land-filesystem/fs/demo/build/CMakeFiles/demo.dir
-/home/students/2023311930/user-land-filesystem/fs/demo/build/CMakeFiles/edit_cache.dir
-/home/students/2023311930/user-land-filesystem/fs/demo/build/CMakeFiles/rebuild_cache.dir

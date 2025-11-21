@@ -1,7 +1,0 @@
-[
-{
-  "directory": "/home/students/2023311930/user-land-filesystem/fs/demo/build",
-  "command": "/usr/bin/gcc  -I/home/students/2023311930/user-land-filesystem/fs/demo/./include  -D_FILE_OFFSET_BITS=64 -no-pie -g -Wall --pedantic -g -o CMakeFiles/demo.dir/src/main.c.o -c /home/students/2023311930/user-land-filesystem/fs/demo/src/main.c",
-  "file": "/home/students/2023311930/user-land-filesystem/fs/demo/src/main.c"
-}
-]
