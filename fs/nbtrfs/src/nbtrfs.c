@@ -10,6 +10,10 @@
 /******************************************************************************
 * SECTION: 全局变量
 *******************************************************************************/
+
+struct nbtrfs_super       super;
+struct custom_options     nbtrfs_options;
+
 static const struct fuse_opt option_spec[] = {		/* 用于FUSE文件系统解析参数 */
 	OPTION("--device=%s", device),
 	FUSE_OPT_END
