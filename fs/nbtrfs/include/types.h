@@ -35,9 +35,12 @@ typedef enum nbtrfs_file_type {
 #define NBTRFS_IMAP_BLKS        1 
 #define NBTRFS_DMAP_BLKS        1 
 #define NBTRFS_INODE_TBL_BLKS   64
-#define NBTRFS_MAX_INO          (NBTRFS_INODE_TBL_BLKS * (NBTRFS_BLK_SZ / sizeof(struct nbtrfs_inode_d)))
-// inode.block_pointer 的个数，动态获取，不一定是6
-#define NBTRFS_MAX_FILE_SIZE    
+#define NBTRFS_INODE_SIZE       64                          // inode 结构大小 (Bytes)
+#define NBTRFS_INODE_FIXED_SIZE 20                          // inode 固定字段大小: ino(4) + size(4) + link(4) + ftype(4) + dir_cnt(4)
+#define NBTRFS_INODE_PADDING    20                          // inode padding 大小
+#define NBTRFS_DATA_PER_FILE    ((NBTRFS_INODE_SIZE - NBTRFS_INODE_FIXED_SIZE - NBTRFS_INODE_PADDING) / sizeof(uint32_t))  // 数据块索引个数
+#define NBTRFS_MAX_INO          (NBTRFS_INODE_TBL_BLKS * (NBTRFS_BLK_SZ / NBTRFS_INODE_SIZE))
+#define NBTRFS_MAX_FILE_SIZE    (NBTRFS_DATA_PER_FILE * NBTRFS_BLK_SZ)  // 最大文件大小
 
 #define NBTRFS_SUPER_BLK_ID     0
 #define NBTRFS_IMAP_BLK_ID      (NBTRFS_SUPER_BLK_ID + NBTRFS_SUPER_BLKS)
@@ -111,21 +114,21 @@ struct nbtrfs_super_d {
 
     // 限制信息
     uint32_t ino_max;            // 1024
-    uint32_t file_max;           // 6 blks, 6 * 1024 Bytes
+    uint32_t file_max;           // NBTRFS_DATA_PER_FILE blks
 };
 
-struct nbtrfs_inode_d {     // Size: 64 Bytes
+struct nbtrfs_inode_d {     // Size: NBTRFS_INODE_SIZE (64 Bytes)
     uint32_t ino;
 
     uint32_t size;               // 文件已占用空间
     uint32_t link;               // 硬链接数，默认为1
     NBTRFS_FILE_TYPE ftype;      // 文件类型
 
-    uint32_t block_pointer[6];   // 数据块索引 (24 Bytes)
+    uint32_t block_pointer[NBTRFS_DATA_PER_FILE];   // 数据块索引
 
     uint32_t dir_cnt;            // 目录项个数，仅目录有效
 
-    uint8_t  _padding[20];       // Padding to 64 Bytes
+    uint8_t  _padding[NBTRFS_INODE_PADDING];       // Padding to NBTRFS_INODE_SIZE
 };
 
 struct nbtrfs_dentry_d {    // Size: 128 Bytes
@@ -174,7 +177,7 @@ struct nbtrfs_inode {
     uint32_t link;               // 硬链接数，默认为1
     NBTRFS_FILE_TYPE ftype;      // 文件类型
 
-    uint32_t block_pointer[6];   // 数据块索引 (24 Bytes)
+    uint32_t block_pointer[NBTRFS_DATA_PER_FILE];   // 数据块索引
 
     uint32_t dir_cnt;            // 目录项个数，仅目录有效
 
