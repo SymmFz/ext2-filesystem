@@ -14,7 +14,7 @@
 #include "types.h"
 #include "stdint.h"
 
-#define NBTRFS_MAGIC                  /* TODO: Define by yourself */
+#define NBTRFS_MAGIC           0x23311930
 #define NBTRFS_DEFAULT_PERM    0777   /* 全权限打开 */
 
 /******************************************************************************
