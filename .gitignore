@@ -1,3 +1,7 @@
 build/
 fs/demo/build/
 fs/nbtrfs/build/
+
+fs/**/tests/disk
+fs/**/tests/disk2
+
